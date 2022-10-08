@@ -1,12 +1,3 @@
-
-Using Blueshift Mail with screen readers
-
-Conversations
-0.46 GB of 30 GB used
-Program Policies
-Powered by Google
-Last account activity: 1 hour ago
-Details
 import cv2
 from picamera2 import Picamera2, Preview, MappedArray
 from picamera2.encoders import H264Encoder
@@ -21,6 +12,7 @@ import imutils
 import numpy as np
 from RPi import GPIO
 from picamera2.encoders import H264Encoder
+from detector import STATE
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(27, GPIO.OUT)
@@ -72,17 +64,20 @@ picam2.configure(config)
 s1 = picam2.stream_configuration("lores")["stride"]
 picam2.start()
 i = 0
-while True:
-    picam2.capture_file(f"/tmp/{i}.jpg")
-    img = cv2.imread(f"/tmp/{i}.jpg", cv2.IMREAD_COLOR)
-    result, cars = getObjects(img,0.45,0.2,draw=False,objects=['car'])
-    print(cars)
-    if(len(cars) > 0):
-        GPIO.output(27, GPIO.HIGH)
-        GPIO.output(22, GPIO.HIGH)
-        GPIO.output(23, GPIO.HIGH)
-    else:
-        GPIO.output(27, GPIO.LOW)
-        GPIO.output(22, GPIO.LOW)
-        GPIO.output(23, GPIO.LOW)
-    i += 1
+
+def run_detector():
+    while True:
+        picam2.capture_file(f"/tmp/cars.jpg")
+        img = cv2.imread(f"/tmp/cars.jpg", cv2.IMREAD_COLOR)
+        result, cars = getObjects(img,0.45,0.2,draw=False,objects=['car'])
+        print(cars)
+        if(len(cars) > 0):
+            GPIO.output(27, GPIO.HIGH)
+            GPIO.output(22, GPIO.HIGH)
+            GPIO.output(23, GPIO.HIGH)
+        else:
+            GPIO.output(27, GPIO.LOW)
+            GPIO.output(22, GPIO.LOW)
+            GPIO.output(23, GPIO.LOW)
+        STATE.update(len(cars), '/tmp/cars.jpg')
+        i += 1

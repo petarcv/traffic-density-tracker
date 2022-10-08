@@ -1,0 +1,29 @@
+.congestion-tracker {
+    padding: 2em;
+}
+
+.congestion-tracker .congestion-counter {
+    display: inline-block;
+    font-size: 7em;
+    border: solid 5px brown;
+    background-color: #fefefe;
+    padding: 0.5em;
+}
+
+.congestion-tracker .congestion-label {
+    display: inline-block;
+    font-size: 7em;
+    padding: 0.5em;
+}
+
+.congestion-low{
+    color: green;
+}
+
+.congestion-medium{
+    color: orange;
+}
+
+.congestion-high{
+    color:red;
+}
