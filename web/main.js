@@ -15,6 +15,8 @@ function updateOnScreen(data) {
     document.getElementById('congestion-counter').setAttribute("class", `congestion-counter congestion-${congestion}`)
     document.getElementById('congestion-label').innerHTML = data.congestion;
     document.getElementById('congestion-label').setAttribute("class", `congestion-label congestion-${congestion}`)
+    const now = new Date().getTime();
+    document.getElementById('congestion-label').innerHTML = `<img src="/api/cars.jpg?${now}"/>`
 }
 
 setInterval(checkCongestion, 500)
