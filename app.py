@@ -9,15 +9,8 @@ from stream import run_detector
 
 app = Flask(__name__)
 
-# STATE.update(14, 'alooo')
-
-# def rand_state():
-#     while True:
-#         STATE.update(randint(0, 15), '')
-#         sleep(4)
-
-# t = Thread(target=rand_state)
-# t.start()
+t = Thread(target=run_detector)
+t.start()
 
 @app.route("/web/<path:path>")
 def index(path):
